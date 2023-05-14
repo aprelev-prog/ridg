@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id="dropzone">
+        <form method="post" enctype="multipart/form-data">
+            <input type="file" name="file[]" multiple>
+            <div id="dropzone">Перетащите файлы сюда</div>
+            <button type="submit">Отправить</button>
+          </form>
+          <a href="images.php">Посмотреть изображения</a>
+    </div>
+    <script>
+        var dropzone = document.getElementById('dropzone');
+dropzone.addEventListener('dragover', function(e) {
+  e.preventDefault();
+  this.classList.add('dragover');
+});
+dropzone.addEventListener('dragleave', function(e) {
+  e.preventDefault();
+  this.classList.remove('dragover');
+});
+dropzone.addEventListener('drop', function(e) {
+  e.preventDefault();
+  this.classList.remove('dragover');
+  var files = e.dataTransfer.files;
+  var xhr = new XMLHttpRequest();
+  var formData = new FormData();
+  for (var i = 0; i < files.length; i++) {
+    formData.append('file[]', files[i]);
+  }
+  xhr.open('POST', 'upload.php');
+  xhr.send(formData);
+});
+    </script>
+</body>
+</html>
